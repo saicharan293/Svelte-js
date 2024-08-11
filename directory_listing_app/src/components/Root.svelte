@@ -6,10 +6,12 @@
   function toggleOpen(index) {
     openIndex = openIndex === index ? null : index;
   }
+  
 </script>
 
 <body>
   <div class="container">
+    <div class="content">
     <div class="header">
       {name}
       <button class="add-button">+</button>
@@ -17,16 +19,16 @@
     <div class="content">
       <div class="parent-directory">
         {#each directories as directory, index}
-          <div class="directory-group">
-            <button class="directory" on:click={() => toggleOpen(index)}>
+          <div class="directory-group " class:selection={openIndex === index} >
+            <div class="directory "  on:click={() => toggleOpen(index)} on:keypress>
               <div class="directory-name">
                 {directory.name}
               </div>
               <div class="directory-info">
                 <span class="folder-icon">📁 {directory.folders}</span>
-                <span class="box-icon">📦 {directory.boxes}</span>
+                <span class="box-icon">📦 {directory.files}</span>
               </div>
-            </button>
+            </div>
 
             <div class="info-dir-icon">
               <span class="info-icon">
@@ -47,6 +49,7 @@
           />
         </div>
         {/if}
+    </div>
 </body>
 
 <style>
@@ -56,13 +59,12 @@
     margin: 0;
     padding: 0;
   }
-  .directory-group {
-    border-bottom: 1px solid #eee;
+  .content{
     display: flex;
-    justify-content: space-between; 
-    align-items: center;
+    flex-direction: column;
+    width: 288px;
+    height: 100%;
   }
-
   .container {
     width: 100%;
     height: 100%;
@@ -70,7 +72,7 @@
   }
 
   .header {
-    width: 300px;
+    width: 100%;
     height: 30px;
     display: flex;
     justify-content: space-between;
@@ -79,7 +81,7 @@
     color: #555;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    padding: 20px;
+    padding: 15px;
   }
 
   .add-button {
@@ -96,24 +98,35 @@
     color: #777;
   }
   .parent-directory {
-    width: 310px; 
+    width: 100%; 
     padding: 15px;
     border-right: 1px solid #777;
     overflow-y: auto;
+    height: 100%;
+    /* position: relative; */
   }
 
   .directory-group {
-    border-bottom: 1px solid #eee;
+    position: relative;
+    border-bottom: 1px solid #ece9e9;
     display: flex;
     justify-content: space-around;
-    gap: 158px;
     align-items: center;
+    margin-bottom: 5px;
+    padding: 5px;
+  }
+ 
+  .directory-group.selection{
+    background-color: #dcecf6;
+    border-radius: 10px;
   }
   .subdirectories {
-    position: fixed;
+    position: absolute;
     top: 0; 
-    left: 341px; 
-    width: calc(100% - 310px); 
+    left: 320px; 
+    /* width: calc(100% - 160px);  */
+    width: 100%;
+
     height: 100%; 
     overflow-y: auto; 
     background-color: white; 
@@ -124,13 +137,14 @@
     padding: 10px;
     color: #333;
     cursor: pointer;
-    width: 100px;
+    width: 260px;
     background-color: #a9ff7e;
     flex-direction: column;
-    /* gap: 5px; */
-    border: none;
+    gap: 5px;
+    /* border: none; */
     background: none;
     appearance: none;
+    border-radius: 20px;
   }
 
   .directory-name {
