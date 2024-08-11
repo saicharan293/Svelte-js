@@ -1,13 +1,19 @@
 <script>
   import Root from "./components/Root.svelte";
+  let name='Root';
 
   let directories = [
-      { name: "Directory A", folders: 4, boxes: 5 },
-      { name: "Directory B", folders: 5, boxes: 4 }
+      { name: "Directory A", subdirectories: [
+          { name: "Directory AA", subdirectories: [] },
+          { name: "Directory AB", subdirectories: [] }
+      ]},
+      { name: "Directory B", subdirectories: [
+          { name: "Directory BA", subdirectories: [] }
+      ]}
   ];
 </script>
 
-<Root {directories}/>
+<Root {directories} {name}/>
 
 <style>
 
